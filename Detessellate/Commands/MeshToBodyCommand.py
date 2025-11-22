@@ -20,13 +20,20 @@ class MeshToBodyCommand:
             sys.path.append(macro_path)
 
         try:
-            import MeshToBody
-            if hasattr(MeshToBody, "run"):
-                MeshToBody.run()
+            import importlib
+            if 'MeshToBody' in sys.modules:
+                import MeshToBody
+                importlib.reload(MeshToBody)
             else:
-                FreeCAD.Console.PrintMessage("MeshToBody macro imported, but no run() function found.\n")
+                import MeshToBody
+
+            # Call the function directly
+            MeshToBody.run_unified_macro(auto_mode=True)
+
         except Exception as e:
             FreeCAD.Console.PrintError(f"Error running MeshToBody: {e}\n")
+            import traceback
+            traceback.print_exc()
 
     def IsActive(self):
         return True

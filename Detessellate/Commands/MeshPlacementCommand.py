@@ -4,7 +4,6 @@ import FreeCADGui
 
 class MeshPlacementCommand:
     def GetResources(self):
-        # icon lives in the macro's own folder
         icon_path = os.path.join(
             os.path.dirname(__file__), "..", "Macros", "MeshPlacement", "meshplacement.svg"
         )
@@ -20,12 +19,13 @@ class MeshPlacementCommand:
         if macro_path not in sys.path:
             sys.path.append(macro_path)
         try:
-            import MeshPlacement
-            # adjust if your macro uses a different entry point
-            if hasattr(MeshPlacement, "run"):
-                MeshPlacement.run()
+            # Force reload if already imported
+            import importlib
+            if 'MeshPlacement' in sys.modules:
+                import MeshPlacement
+                importlib.reload(MeshPlacement)
             else:
-                FreeCAD.Console.PrintMessage("MeshPlacement macro imported, but no run() function found.\n")
+                import MeshPlacement
         except Exception as e:
             FreeCAD.Console.PrintError(f"Error running MeshPlacement: {e}\n")
             import traceback
