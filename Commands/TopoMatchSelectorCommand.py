@@ -27,8 +27,8 @@ class TopoMatchSelectorCommand:
             else:
                 import TopoMatchSelector
 
-            # The macro will execute on import or call the appropriate function
-            # Adjust based on how TopoMatchSelector.py is structured
+            # Call the function that creates the docker
+            TopoMatchSelector.create_topo_match_selector()
 
         except Exception as e:
             FreeCAD.Console.PrintError(f"Error running TopoMatchSelector: {e}\n")

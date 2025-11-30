@@ -78,46 +78,25 @@ class CreatePartDesignToolbarCommand:
             FreeCAD.Console.PrintWarning(f"Could not connect workbench toggle: {e}\n")
 
     def add_topomatch_selector_button(self, toolbar):
-        """Add TopoMatchSelector button that directly calls the macro"""
+        """Add TopoMatchSelector button using its registered action"""
         try:
-            macro_path = os.path.join(
-                FreeCAD.getUserAppDataDir(),
-                "Mod",
-                "Detessellate",
-                "Macros",
-                "TopoMatchSelector"
-            )
+            # Method 1: Try getting via command manager
+            mw = FreeCADGui.getMainWindow()
 
-            icon_path = os.path.join(macro_path, "topomatchselector.svg")
-            icon = QtGui.QIcon(icon_path) if os.path.exists(icon_path) else QtGui.QIcon()
+            # Search all QActions for one with our command name
+            for action in mw.findChildren(QtGui.QAction):
+                # FreeCAD actions have objectName set to the command name
+                if action.objectName() == "Detessellate_TopoMatchSelector" or \
+                   action.data() == "Detessellate_TopoMatchSelector" or \
+                   action.text() == "Topo Match Selector":  # MenuText from GetResources
+                    FreeCAD.Console.PrintMessage(f"Found action: {action.objectName()}, text: {action.text()}\n")
+                    toolbar.addAction(action)
+                    return
 
-            action = QtGui.QAction(icon, "Topo Match Selector", toolbar)
-            action.setToolTip("Select topology matching elements")
-            action.triggered.connect(lambda: self.run_topomatch_selector(macro_path))
-
-            toolbar.addAction(action)
+            FreeCAD.Console.PrintWarning("Could not find TopoMatchSelector action\n")
 
         except Exception as e:
-            FreeCAD.Console.PrintError(f"Error adding TopoMatchSelector button: {e}\n")
-
-    def run_topomatch_selector(self, macro_path):
-        """Directly run the TopoMatchSelector macro"""
-        try:
-            if macro_path not in sys.path:
-                sys.path.append(macro_path)
-
-            import importlib
-            if 'TopoMatchSelector' in sys.modules:
-                import TopoMatchSelector
-                importlib.reload(TopoMatchSelector)
-            else:
-                import TopoMatchSelector
-
-            # Call the appropriate function based on the macro structure
-            # Adjust once you share the macro file
-
-        except Exception as e:
-            FreeCAD.Console.PrintError(f"Error running TopoMatchSelector: {e}\n")
+            FreeCAD.Console.PrintError(f"Error: {e}\n")
             import traceback
             traceback.print_exc()
 

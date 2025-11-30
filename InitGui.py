@@ -7,12 +7,12 @@ import os
 
 # Command specs: (command name, module path, class name, toolbar group, show_in_toolbar)
 command_specs = [
-    ("MeshPlacement", "Commands.MeshPlacementCommand", "MeshPlacementCommand", "Detessellate Mesh", True),
-    ("MeshToBody", "Commands.MeshToBodyCommand", "MeshToBodyCommand", "Detessellate Mesh", True),
-    ("CoplanarSketch", "Commands.CoplanarSketchCommand", "CoplanarSketchCommand", "Detessellate Sketch", True),
-    ("EdgeLoopSelector", "Commands.EdgeLoopSelectorCommand", "EdgeLoopSelectorCommand", "Detessellate Utilities", True),
-    ("TopoMatchSelector", "Commands.TopoMatchSelectorCommand", "TopoMatchSelectorCommand", "Detessellate Utilities", False),  # Menu only
-    ("VarSetUpdate", "Commands.VarSetUpdateCommand", "VarSetUpdateCommand", "Detessellate Utilities", True),
+    ("Detessellate_MeshPlacement", "Commands.MeshPlacementCommand", "MeshPlacementCommand", "Detessellate Mesh", True),
+    ("Detessellate_MeshToBody", "Commands.MeshToBodyCommand", "MeshToBodyCommand", "Detessellate Mesh", True),
+    ("Detessellate_CoplanarSketch", "Commands.CoplanarSketchCommand", "CoplanarSketchCommand", "Detessellate Sketch", True),
+    ("Detessellate_EdgeLoopSelector", "Commands.EdgeLoopSelectorCommand", "EdgeLoopSelectorCommand", "Detessellate Utilities", True),
+    ("Detessellate_TopoMatchSelector", "Commands.TopoMatchSelectorCommand", "TopoMatchSelectorCommand", "Detessellate Utilities", False),  # Menu only
+    ("Detessellate_VarSetUpdate", "Commands.VarSetUpdateCommand", "VarSetUpdateCommand", "Detessellate Utilities", True),
     ("CreateSketchToolbar", "Commands.CreateSketchToolbarCommand", "CreateSketchToolbarCommand", "Detessellate Sketch", False),  # Menu only
     ("CreatePartDesignToolbar", "Commands.CreatePartDesignToolbarCommand", "CreatePartDesignToolbarCommand", "Detessellate Utilities", False),  # Menu only
     ("CreateGlobalToolbar", "Commands.CreateGlobalToolbarCommand", "CreateGlobalToolbarCommand", "Detessellate Utilities", False),  # Menu only
