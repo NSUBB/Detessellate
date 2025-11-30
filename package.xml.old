@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+    <!-- Basic metadata -->
+    <name>Detessellate</name>
+    <version>0.1.0</version>
+    <date>2025-11-26</date>
+    <author>DesignWeaver3D</author>
+    <license>GPL-3.0-or-later</license>
+
+    <!-- Description shown in Addon Manager -->
+    <description>
+        FreeCAD workbench of tools for converting tessellated solids from meshes into parametric FreeCAD features.
+        Includes mesh-to-body conversion, coplanar sketch extraction, and sketch profile conversion.
+    </description>
+
+    <!-- Optional: icon path relative to repo root -->
+    <icon>Resources/icons/Detessellate.svg</icon>
+
+    <!-- Compatibility info -->
+    <freecad min="1.0.2" max="1.99.99"/>
+
+    <!-- Homepage / repo link -->
+    <url>https://github.com/DesignWeaver3D/Detessellate</url>
+
+    <tag>reverse-engineering</tag>
+    <tag>mesh</tag>
+    <tag>sketch</tag>
+    <tag>selection</tag>
+
+</package>
