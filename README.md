@@ -41,7 +41,13 @@ Install via **FreeCAD Addon Manager** by adding the Detessellate Repository to t
 
 <img width="885" height="932" alt="image" src="https://github.com/user-attachments/assets/8a0a0d23-7a0b-46d9-a032-3d1cb1f87fb2" />
 
-## 📖 Roadmap
+## 🛣️ Roadmap
 - 📚 Expanded documentation and tutorials  
 - 🛠️ Additional utilities for Detessellate workflows  
-- 🎯 Integration with FreeCAD Addon Manager  
+- 🎯 Integration with FreeCAD Addon Manager
+
+## 📜 Changelog
+- **v0.1.2** (2025‑11‑30) – Improved tooltips for all toolbars  
+- **v0.1.1** (2025‑11‑30) – Bug fix for `package.xml` for Addon Manager  
+- **v0.1.0** (2025‑11‑26) – Initial release  
+
