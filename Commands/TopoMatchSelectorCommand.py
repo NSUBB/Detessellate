@@ -1,23 +1,23 @@
-import os, sys
+from pathlib import Path
+import sys
+
 import FreeCAD
 import FreeCADGui
 
 class TopoMatchSelectorCommand:
+    base_path: Path = Path(__file__).parent.parent / "Macros/TopoMatchSelector"
+
     def GetResources(self):
-        icon_path = os.path.join(
-            os.path.dirname(__file__), "..", "Macros", "TopoMatchSelector", "topomatchselector.svg"
-        )
+        icon_path = self.base_path / "TopoMatchSelector.svg"
         return {
-            'Pixmap': icon_path if os.path.exists(icon_path) else '',  # Empty string = text button fallback
+            'Pixmap': str(icon_path),
             'MenuText': 'Topo Match Selector',
             'ToolTip': 'Select topology matching elements'
         }
 
     def Activated(self):
-        macro_path = os.path.join(os.path.dirname(__file__), "..", "Macros", "TopoMatchSelector")
-        macro_path = os.path.abspath(macro_path)
-        if macro_path not in sys.path:
-            sys.path.append(macro_path)
+        if str(self.base_path) not in sys.path:
+            sys.path.append(str(self.base_path))
 
         try:
             import importlib

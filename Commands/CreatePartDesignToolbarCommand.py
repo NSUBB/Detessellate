@@ -1,10 +1,13 @@
+from pathlib import Path
+import sys
+
 import FreeCAD
 import FreeCADGui
 from PySide import QtGui, QtCore
-import os
-import sys
 
 class CreatePartDesignToolbarCommand:
+    wb_path: Path = Path(__file__).parent.parent
+
     def GetResources(self):
         return {
             'Pixmap': '',  # No icon

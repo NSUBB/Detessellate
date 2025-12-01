@@ -1,10 +1,13 @@
+import sys
+from pathlib import Path
+
 import FreeCAD
 import FreeCADGui
 from PySide import QtGui, QtCore
-import os
-import sys
 
 class CreateSketchToolbarCommand:
+    wb_path: Path = Path(__file__).parent.parent
+
     def GetResources(self):
         return {
             'Pixmap': '',  # No icon
@@ -83,16 +86,9 @@ class CreateSketchToolbarCommand:
     def add_sketch_reprofile_button(self, toolbar):
         """Add SketchReProfile button that directly calls the macro"""
         try:
-            macro_path = os.path.join(
-                FreeCAD.getUserAppDataDir(),
-                "Mod",
-                "Detessellate",
-                "Macros",
-                "SketchReProfile"
-            )
-
-            icon_path = os.path.join(macro_path, "sketchreprofile.svg")
-            icon = QtGui.QIcon(icon_path) if os.path.exists(icon_path) else QtGui.QIcon()
+            macro_path = self.wb_path / "Macros" / "SketchReProfile"
+            icon_path = macro_path / "SketchReProfile.svg"
+            icon = QtGui.QIcon(str(icon_path))
 
             action = QtGui.QAction(icon, "Sketch ReProfile", toolbar)
             action.setToolTip(
@@ -110,17 +106,9 @@ class CreateSketchToolbarCommand:
     def add_sketcher_wiredoctor_button(self, toolbar):
         """Add SketcherWireDoctor button that directly calls the macro"""
         try:
-            macro_path = os.path.join(
-                FreeCAD.getUserAppDataDir(),
-                "Mod",
-                "Detessellate",
-                "Macros",
-                "SketcherWireDoctor"
-            )
-
-            # Load icon - adjust the filename to match your actual icon file
-            icon_path = os.path.join(macro_path, "sketcherwiredoctor.svg")  # or .png, whatever you have
-            icon = QtGui.QIcon(icon_path) if os.path.exists(icon_path) else QtGui.QIcon()
+            macro_path = self.wb_path / "Macros" / "SketcherWireDoctor"
+            icon_path = macro_path / "SketcherWireDoctor.svg"
+            icon = QtGui.QIcon(str(icon_path))
 
             action = QtGui.QAction(icon, "Sketcher Wire Doctor", toolbar)
             action.setToolTip(
@@ -135,11 +123,11 @@ class CreateSketchToolbarCommand:
         except Exception as e:
             FreeCAD.Console.PrintError(f"Error adding SketcherWireDoctor button: {e}\n")
 
-    def run_sketch_reprofile(self, macro_path):
+    def run_sketch_reprofile(self, macro_path: Path) -> None:
         """Directly run the SketchReProfile macro"""
         try:
-            if macro_path not in sys.path:
-                sys.path.append(macro_path)
+            if str(macro_path) not in sys.path:
+                sys.path.append(str(macro_path))
 
             import importlib
             if 'SketchReProfile' in sys.modules:
@@ -155,11 +143,11 @@ class CreateSketchToolbarCommand:
             import traceback
             traceback.print_exc()
 
-    def run_sketcher_wiredoctor(self, macro_path):
+    def run_sketcher_wiredoctor(self, macro_path: Path) -> None:
         """Directly run the SketcherWireDoctor macro"""
         try:
-            if macro_path not in sys.path:
-                sys.path.append(macro_path)
+            if str(macro_path) not in sys.path:
+                sys.path.append(str(macro_path))
 
             import importlib
             if 'SketcherWireDoctor_Main' in sys.modules:

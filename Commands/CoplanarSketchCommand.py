@@ -1,23 +1,23 @@
-import os, sys
+from pathlib import Path
+import sys
+
 import FreeCAD
 import FreeCADGui
 
 class CoplanarSketchCommand:
+    base_path: Path = Path(__file__).parent.parent / "Macros/CoplanarSketch"
+
     def GetResources(self):
-        icon_path = os.path.join(
-            os.path.dirname(__file__), "..", "Macros", "CoplanarSketch", "coplanarsketch.svg"
-        )
+        icon_path = self.base_path / "CoplanarSketch.svg"
         return {
-            'Pixmap': icon_path,
+            'Pixmap': str(icon_path),
             'MenuText': 'Coplanar Sketch',
             'ToolTip': 'Create sketches coplanar to selected faces'
         }
 
     def Activated(self):
-        macro_path = os.path.join(os.path.dirname(__file__), "..", "Macros", "CoplanarSketch")
-        macro_path = os.path.abspath(macro_path)
-        if macro_path not in sys.path:
-            sys.path.append(macro_path)
+        if str(self.base_path) not in sys.path:
+            sys.path.append(str(self.base_path))
 
         try:
             import importlib

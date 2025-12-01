@@ -1,23 +1,23 @@
-import os, sys
+from pathlib import Path
+import sys
+
 import FreeCAD
 import FreeCADGui
 
 class MeshToBodyCommand:
+    base_path: Path = Path(__file__).parent.parent / "Macros/MeshToBody"
+
     def GetResources(self):
-        icon_path = os.path.join(
-            os.path.dirname(__file__), "..", "Macros", "MeshToBody", "meshtobody.svg"
-        )
+        icon_path = self.base_path / "MeshToBody.svg"
         return {
-            'Pixmap': icon_path,
+            'Pixmap': str(icon_path),
             'MenuText': 'Mesh To Body',
             'ToolTip': 'Convert mesh to parametric body'
         }
 
     def Activated(self):
-        macro_path = os.path.join(os.path.dirname(__file__), "..", "Macros", "MeshToBody")
-        macro_path = os.path.abspath(macro_path)
-        if macro_path not in sys.path:
-            sys.path.append(macro_path)
+        if str(self.base_path) not in sys.path:
+            sys.path.append(str(self.base_path))
 
         try:
             import importlib

@@ -1,23 +1,23 @@
-import os, sys
+from pathlib import Path
+import  sys
+
 import FreeCAD
 import FreeCADGui
 
 class MeshPlacementCommand:
+    base_path: Path = Path(__file__).parent.parent / "Macros/MeshPlacement"
+
     def GetResources(self):
-        icon_path = os.path.join(
-            os.path.dirname(__file__), "..", "Macros", "MeshPlacement", "meshplacement.svg"
-        )
+        icon_path = self.base_path / "MeshPlacement.svg"
         return {
-            'Pixmap': icon_path,
+            'Pixmap': str(icon_path),
             'MenuText': 'Mesh Placement',
             'ToolTip': 'Center and align meshes at origin'
         }
 
     def Activated(self):
-        macro_path = os.path.join(os.path.dirname(__file__), "..", "Macros", "MeshPlacement")
-        macro_path = os.path.abspath(macro_path)
-        if macro_path not in sys.path:
-            sys.path.append(macro_path)
+        if str(self.base_path) not in sys.path:
+            sys.path.append(str(self.base_path))
         try:
             # Force reload if already imported
             import importlib

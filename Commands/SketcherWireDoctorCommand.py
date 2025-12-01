@@ -1,23 +1,23 @@
-import os, sys
+from pathlib import Path
+import sys
+
 import FreeCAD
 import FreeCADGui
 
 class SketcherWireDoctorCommand:
+    base_path: Path = Path(__file__).parent.parent / "Macros/SketcherWireDoctor"
+
     def GetResources(self):
-        icon_path = os.path.join(
-            os.path.dirname(__file__), "..", "Macros", "SketcherWireDoctor", "sketcherwiredoctor.svg"
-        )
+        icon_path = self.base_path / "SketcherWireDoctor.svg"
         return {
-            'Pixmap': icon_path,
+            'Pixmap': str(icon_path),
             'MenuText': 'Sketcher Wire Doctor',
             'ToolTip': 'Fix sketch wire issues'
         }
 
     def Activated(self):
-        macro_path = os.path.join(os.path.dirname(__file__), "..", "Macros", "SketcherWireDoctor")
-        macro_path = os.path.abspath(macro_path)
-        if macro_path not in sys.path:
-            sys.path.append(macro_path)
+        if str(self.base_path) not in sys.path:
+            sys.path.append(str(self.base_path))
 
         try:
             import importlib

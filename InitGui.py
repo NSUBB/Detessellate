@@ -1,7 +1,6 @@
 import FreeCAD
 import FreeCADGui
 import traceback
-import os
 
 #print("Detessellate InitGui.py starting to load")
 
@@ -37,9 +36,12 @@ for cmd_name, module_path, class_name, toolbar, show_in_toolbar in command_specs
 print("Detessellate workbench loaded")
 
 class DetessellateWorkbench(FreeCADGui.Workbench):
+    # Must be imported here otherwise "name 'Path' is not defined".
+    from pathlib import Path
+
     MenuText = "Detessellate"
     ToolTip = "Tools to reverse engineering meshes"
-    Icon = os.path.join(FreeCAD.getUserAppDataDir(), "Mod", "Detessellate", "Resources", "icons", "detessellate.svg")
+    Icon = str(Path(FreeCAD.getUserAppDataDir()) / "Mod/Detessellate/Resources/icons/Detessellate.svg")
 
     def __init__(self):
         self._toolbar_created = False
