@@ -1,12 +1,10 @@
 name: Sync Macros to Satellite Repos
-
 on:
   push:
     branches:
       - main
     paths:
       - 'Macros/**'
-
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -38,14 +36,12 @@ jobs:
           - name: SketcherWireDoctor
             path: Macros/SketcherWireDoctor
             repo: SketcherWireDoctor
-
     steps:
       - name: Checkout Detessellate
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # Default GITHUB_TOKEN is fine for reading this repo
-
+      
       - name: Check if macro changed
         id: changed
         run: |
@@ -54,7 +50,7 @@ jobs:
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
-
+      
       - name: Checkout satellite repo
         if: steps.changed.outputs.changed == 'true'
         uses: actions/checkout@v4
@@ -62,7 +58,8 @@ jobs:
           repository: DesignWeaver3D/${{ matrix.macro.repo }}
           token: ${{ secrets.PAT_TOKEN }}
           path: satellite-repo
-
+          persist-credentials: true
+      
       - name: Sync ${{ matrix.macro.name }}
         if: steps.changed.outputs.changed == 'true'
         run: |
@@ -71,19 +68,18 @@ jobs:
           echo "Source path: ${{ matrix.macro.path }}"
           echo "Target repo: DesignWeaver3D/${{ matrix.macro.repo }}"
           echo "================================================"
-
           cd satellite-repo
-
+          
           # Remove old content (except .git)
           find . -maxdepth 1 ! -name '.git' ! -name '.' -exec rm -rf {} +
-
-          # Copy new content from macro folder (robust against empty dirs)
+          
+          # Copy new content from macro folder
           rsync -av --delete ../${{ matrix.macro.path }}/ .
-
+          
           # Configure git
           git config user.name "Detessellate Sync Bot"
           git config user.email "actions@github.com"
-
+          
           # Commit and push changes
           git add -A
           if git diff --staged --quiet; then
@@ -91,7 +87,6 @@ jobs:
           else
             git commit -m "Sync from Detessellate @ ${{ github.sha }}"
             git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/DesignWeaver3D/${{ matrix.macro.repo }}.git
-            git push origin main --force
-            git push origin main --force || (sleep 10 && git push origin main --force)
+            git push origin main
             echo "✓ Sync complete for ${{ matrix.macro.name }}"
           fi
