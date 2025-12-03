@@ -385,6 +385,8 @@ class EdgeDataCollector(QDockWidget):
         final_sketch.AttachmentOffset.Rotation = temp_sketch.Placement.Rotation
         final_sketch.Placement = FreeCAD.Placement()
 
+        doc.recompute()  # Needed to resolve attachment before adding geometry
+
         # Cache the inverse placement once
         inverse_placement = final_sketch.getGlobalPlacement().inverse()
 
